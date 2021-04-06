@@ -1,2 +1,3 @@
-# CMS-Test
-Система учета рабочего оборудования в компании
+# TEST TASK
+### The system of accounting of working equipment in the company
+***
