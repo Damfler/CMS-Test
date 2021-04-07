@@ -2,7 +2,12 @@
 include("../db.php");
 
 include('../class/dbClass.php');
+include ('../class/UserClass.php');
+
 $ec = new dbClass();
+$us = new UserClass();
+
+$errorMsg = '';
 
 $staff = $ec->getAll('staff');
 ?>
@@ -10,39 +15,75 @@ $staff = $ec->getAll('staff');
 // Оборудование
 if (!empty($_POST['updateEquip']) && $_POST['updateEquip'] == true) {
     $update = $ec->updateEquip($_POST['name'], $_POST['code'], $_POST['id']);
-    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/equipment.php';
-    header("Location:" . $url);
+    if ($update) {
+        $url = 'http://' . $_SERVER['SERVER_NAME'] . '/equipment.php';
+        header("Location:" . $url);
+    } else {
+        $errorMsg = 'Ошибка, попробуйте повторить позже';
+    }
 }
 
 if (!empty($_POST['removeEquip']) && $_POST['removeEquip'] == true) {
     $remove = $ec->remove($_POST['table'], $_POST['id']);
-    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/equipment.php';
-    header("Location:" . $url);
+    if ($remove) {
+        $url = 'http://' . $_SERVER['SERVER_NAME'] . '/equipment.php';
+        header("Location:" . $url);
+    } else {
+        $errorMsg = 'Ошибка, попробуйте повторить позже';
+    }
 }
 
 // Сотрудники
 if (!empty($_POST['updateStaff']) && $_POST['updateStaff'] == true) {
     $update = $ec->updateStaff($_POST['fio'], $_POST['inn'], $_POST['phone'], $_POST['email'], $_POST['post'], $_POST['department'], $_POST['id']);
-    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/staff.php';
-    header("Location:" . $url);
+    if ($update) {
+        $url = 'http://' . $_SERVER['SERVER_NAME'] . '/staff.php';
+        header("Location:" . $url);
+    } else {
+        $errorMsg = 'Ошибка, попробуйте повторить позже';
+    }
 }
 
 if (!empty($_POST['removeStaff']) && $_POST['removeStaff'] == true) {
     $remove = $ec->remove($_POST['table'], $_POST['id']);
-    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/staff.php';
-    header("Location:" . $url);
+    if ($remove) {
+        $url = 'http://' . $_SERVER['SERVER_NAME'] . '/staff.php';
+        header("Location:" . $url);
+    } else {
+        $errorMsg = 'Ошибка, попробуйте повторить позже';
+    }
 }
 
 // Список
 if (!empty($_POST['removeList']) && $_POST['removeList'] == true) {
     $remove = $ec->removeList($_POST['id']);
-    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/spisok.php';
-    header("Location:" . $url);
+    if ($remove) {
+        $url = 'http://' . $_SERVER['SERVER_NAME'] . '/spisok.php';
+        header("Location:" . $url);
+    } else {
+        $errorMsg = 'Ошибка, попробуйте повторить позже';
+    }
 }
 if (!empty($_POST['updateList']) && $_POST['updateList'] == true) {
     $update = $ec->updateList($_POST['staff_id'], $_POST['id']);
-    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/spisok.php';
-    header("Location:" . $url);
+    if ($update) {
+        $url = 'http://' . $_SERVER['SERVER_NAME'] . '/spisok.php';
+        header("Location:" . $url);
+    } else {
+        $errorMsg = 'Ошибка, попробуйте повторить позже';
+    }
+}
+
+// Смена пароля
+if (!empty($_POST['passwordSwitch']) && $_POST['passwordSwitch'] == true) {
+    $id = (int)$_SESSION['users'];
+    $update = $us->passwordSwitch($_POST['password'], $id);
+    if ($update) {
+        $url = 'http://' . $_SERVER['SERVER_NAME'] . '/';
+        header("Location:" . $url);
+    } else {
+        $errorMsg = 'Ошибка, попробуйте повторить позже';
+    }
 }
 ?>
 
@@ -50,6 +91,10 @@ if (!empty($_POST['updateList']) && $_POST['updateList'] == true) {
 <? include '../components/header.php' ?>
 
 <div class="container">
+
+    <? if(strlen($errorMsg) > 0) {
+        echo '<div class="alert alert-danger mt-5">'.$errorMsg.'</div>';
+    }?>
 
     <? if (!empty($_POST['updateOne']) && $_POST['updateOne'] == true) { ?>
         <div class="row mt-5 justify-content-center">

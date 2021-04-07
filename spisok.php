@@ -18,7 +18,7 @@ $equipment = $ec->getAll('equipment');
 <? include 'components/header.php' ?>
 
     <div class="container">
-        <h1 class="text-center m-5">Список оборудования</h1>
+        <h1 class="text-center m-5">Использование оборудования</h1>
         <form action="" method="">
             <div class="row">
                 <div class="col-6">
@@ -118,38 +118,5 @@ $equipment = $ec->getAll('equipment');
             </div>
         </div>
     </div>
-
-<!--    <script>-->
-<!--        let staff = document.getElementById('staff_id');-->
-<!--        let equipment = document.getElementById('equipment_id');-->
-<!---->
-<!--        // Сортировка по имени-->
-<!--        staff.addEventListener('change', function () {-->
-<!--            let filter = staff.value,-->
-<!--                filterElement = document.querySelectorAll('.name')-->
-<!---->
-<!--            filterElement.forEach(staff => {-->
-<!--                if (staff.innerHTML.indexOf(filter) > -1) {-->
-<!--                    staff.style.display = ''-->
-<!--                } else {-->
-<!--                    staff.style.display = 'none'-->
-<!--                }-->
-<!--            })-->
-<!--        })-->
-<!---->
-<!--        // Сортировка по оборудованию-->
-<!--        equipment.addEventListener('change', function () {-->
-<!--            let filter = equipment.value,-->
-<!--                filterElement = document.querySelectorAll('.equip')-->
-<!---->
-<!--            filterElement.forEach(equip => {-->
-<!--                if (equip.innerHTML.indexOf(filter) > -1) {-->
-<!--                    equip.style.display = ''-->
-<!--                } else {-->
-<!--                    equip.style.display = 'none'-->
-<!--                }-->
-<!--            })-->
-<!--        })-->
-<!--    </script>-->
 
 <? include 'components/footer.php' ?>

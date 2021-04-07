@@ -29,4 +29,19 @@ Class UserClass
             echo '{"error":{"text":'. $e->getMessage() .'}}';
         }
     }
+
+    public function passwordSwitch($password, $id) {
+        try {
+            $db = getDB();
+//            $password = md5($password); //При необходимости можно раскомментировать
+            $stmt = $db->prepare("UPDATE `users` SET `password` = :password WHERE `users`.`id` = :id");
+            $stmt->bindParam("password", $password,PDO::PARAM_STR);
+            $stmt->bindParam("id", $id,PDO::PARAM_INT);
+            $stmt->execute();
+            return true;
+        }
+        catch(PDOException $e) {
+            echo '{"error":{"text":'. $e->getMessage() .'}}';
+        }
+    }
 }
