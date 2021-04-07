@@ -18,7 +18,7 @@ $equipment = $ec->getAll('equipment');
 <? include 'components/header.php' ?>
 
     <div class="container">
-        <h1 class="text-center m-5">Список оборудования</h1>
+        <h1 class="text-center m-5">Использование оборудования</h1>
         <form action="" method="">
             <div class="row">
                 <div class="col-6">
@@ -27,7 +27,9 @@ $equipment = $ec->getAll('equipment');
                         <select class="form-select" id="staff_id" name="FILTER[staff_id]">
                             <option></option>
                             <? foreach ($staff as $staffItem): ?>
-                                <option <?=(($_GET['FILTER']['staff_id'] == $staffItem['id']) ? 'selected' : '')?> value="<?=$staffItem['id']?>"><?= $staffItem['FIO'] ?></option>
+    <? if ($staffItem['active'] == 1): ?>
+        <option <?=(($_GET['FILTER']['staff_id'] == $staffItem['id']) ? 'selected' : '')?> value="<?=$staffItem['id']?>"><?= $staffItem['FIO'] ?></option>
+    <? endif; ?>
                             <? endforeach; ?>
                         </select>
                     </div>
@@ -39,8 +41,10 @@ $equipment = $ec->getAll('equipment');
                         <select class="form-select" id="equipment_id" name="FILTER[equipment_id]">
                             <option></option>
                             <? foreach ($equipment as $equip): ?>
-                                <option <?=(($_GET['FILTER']['equipment_id'] == $equip['id']) ? 'selected' : '')?> value="<?= $equip['id'] ?>"><?= $equip['name'] ?></option>
-                            <? endforeach; ?>
+    <? if ($equip['active'] == 1): ?>
+        <option <?=(($_GET['FILTER']['equipment_id'] == $equip['id']) ? 'selected' : '')?> value="<?= $equip['id'] ?>"><?= $equip['name'] ?></option>
+        <? endif; ?>
+        <? endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -98,7 +102,9 @@ $equipment = $ec->getAll('equipment');
                             <label for="code" class="form-label">Сотрудник</label>
                             <select class="form-select" name="staff_id">
                                 <? foreach ($staff as $equip): ?>
-                                    <option value="<?= $equip['id'] ?>"><?= $equip['FIO'] ?></option>
+                                    <? if ($equip['active'] == 1): ?>
+                                        <option value="<?= $equip['id'] ?>"><?= $equip['FIO'] ?></option>
+                                    <? endif; ?>
                                 <? endforeach; ?>
                             </select>
                         </div>
@@ -106,7 +112,9 @@ $equipment = $ec->getAll('equipment');
                             <label for="code" class="form-label">Оборудование</label>
                             <select class="form-select" name="equipment_id">
                                 <? foreach ($equipment as $equip): ?>
-                                    <option value="<?= $equip['id'] ?>"><?= $equip['name'] ?></option>
+                                    <? if ($equip['active'] == 1): ?>
+                                        <option value="<?= $equip['id'] ?>"><?= $equip['name'] ?></option>
+                                    <? endif; ?>
                                 <? endforeach; ?>
                             </select>
                         </div>
@@ -118,38 +126,5 @@ $equipment = $ec->getAll('equipment');
             </div>
         </div>
     </div>
-
-<!--    <script>-->
-<!--        let staff = document.getElementById('staff_id');-->
-<!--        let equipment = document.getElementById('equipment_id');-->
-<!---->
-<!--        // Сортировка по имени-->
-<!--        staff.addEventListener('change', function () {-->
-<!--            let filter = staff.value,-->
-<!--                filterElement = document.querySelectorAll('.name')-->
-<!---->
-<!--            filterElement.forEach(staff => {-->
-<!--                if (staff.innerHTML.indexOf(filter) > -1) {-->
-<!--                    staff.style.display = ''-->
-<!--                } else {-->
-<!--                    staff.style.display = 'none'-->
-<!--                }-->
-<!--            })-->
-<!--        })-->
-<!---->
-<!--        // Сортировка по оборудованию-->
-<!--        equipment.addEventListener('change', function () {-->
-<!--            let filter = equipment.value,-->
-<!--                filterElement = document.querySelectorAll('.equip')-->
-<!---->
-<!--            filterElement.forEach(equip => {-->
-<!--                if (equip.innerHTML.indexOf(filter) > -1) {-->
-<!--                    equip.style.display = ''-->
-<!--                } else {-->
-<!--                    equip.style.display = 'none'-->
-<!--                }-->
-<!--            })-->
-<!--        })-->
-<!--    </script>-->
 
 <? include 'components/footer.php' ?>

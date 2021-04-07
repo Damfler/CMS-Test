@@ -20,6 +20,7 @@ $get = $ec->getAll('equipment');
             Добавить
         </button>
         <? foreach ($get as $equip): ?>
+    <? if ($equip['active'] == 1): ?>
             <div class="card my-4">
                 <form action="Add/updateRemove.php" method="POST">
                     <div class="card-header"><?= $equip['id'] ?> - <?= $equip['name'] ?></div>
@@ -39,6 +40,7 @@ $get = $ec->getAll('equipment');
                     </div>
                 </form>
             </div>
+            <? endif; ?>
         <? endforeach; ?>
     </div>
 
