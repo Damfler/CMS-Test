@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 07 2021 г., 10:04
+-- Время создания: Апр 07 2021 г., 12:45
 -- Версия сервера: 5.7.29
 -- Версия PHP: 7.1.33
 
@@ -30,26 +30,28 @@ SET time_zone = "+00:00";
 CREATE TABLE `equipment` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` int(11) NOT NULL
+  `code` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `equipment`
 --
 
-INSERT INTO `equipment` (`id`, `name`, `code`) VALUES
-(1, 'Shvabra', 1),
-(2, 'Ведро', 12),
-(3, 'Пользователь', 23423),
-(5, 'Стул', 3838),
-(6, 'Стрелка', 3452),
-(7, 'Обрез', 46453),
-(8, 'Макакаc', 33423),
-(9, 'Gashuk', 22),
-(10, 'Компьютер', 47837),
-(11, 'Калинин чертов мать', 0),
-(13, 'ноутбук', 242),
-(14, 'тестовое', 4323);
+INSERT INTO `equipment` (`id`, `name`, `code`, `active`) VALUES
+(1, 'Shvabra', 1, 0),
+(2, 'Ведро', 12, 1),
+(3, 'Пользователь', 23423, 1),
+(5, 'Стул', 3838, 1),
+(6, 'Стрелка', 3452, 1),
+(7, 'Обрез', 46453, 1),
+(8, 'Макакаc', 33423, 1),
+(9, 'Gashuk', 22, 1),
+(10, 'Компьютер', 47837, 1),
+(11, 'Калинин чертов мать', 0, 1),
+(13, 'ноутбук', 242, 1),
+(14, 'тестовое', 4323, 1),
+(15, '2239329', 3324, 1);
 
 -- --------------------------------------------------------
 
@@ -70,7 +72,7 @@ CREATE TABLE `list` (
 --
 
 INSERT INTO `list` (`id`, `staff_id`, `equipment_id`, `inv_num`, `create_time`) VALUES
-(1, NULL, 9, 'ИН0', '2021-04-06 16:30:50'),
+(1, 4, 9, 'ИН0', '2021-04-06 16:30:50'),
 (2, 4, 3, 'ИН0', '2021-04-06 09:31:03'),
 (3, 2, 11, 'ИН0', '2021-04-06 16:33:15'),
 (4, 4, 5, 'ИН0', '2021-04-06 16:33:26'),
@@ -101,18 +103,19 @@ CREATE TABLE `staff` (
   `phone` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `post` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `department` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+  `department` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `staff`
 --
 
-INSERT INTO `staff` (`id`, `FIO`, `INN`, `phone`, `email`, `post`, `department`) VALUES
-(1, 'Гашук Дмитрий Александрович', 1234567890, '+12345678901', 'admin@admin.ru', 'Должность', 'Отдел'),
-(2, 'Иванов Иван Ивано`вич', 1234567890, '+12345678901', 'admin@admin.ru', 'Должность', 'Отдел'),
-(4, 'Горин Генадий *вич', 4345354, '5657565', '56567665', '566565776', '67676767'),
-(5, 'Фамилия Имя Отчество', 1234567890, '12345678901', 'admin@admin.admin', 'post', 'no post');
+INSERT INTO `staff` (`id`, `FIO`, `INN`, `phone`, `email`, `post`, `department`, `active`) VALUES
+(1, 'Гашук Дмитрий Александрович', 1234567890, '+12345678901', 'admin@admin.ru', 'Должность', 'Отдел', 0),
+(2, 'Иванов Иван Ивано`вич', 1234567890, '+12345678901', 'admin@admin.ru', 'Должность', 'Отдел', 1),
+(4, 'Горин Генадий *вич', 4345354, '5657565', '56567665', '566565776', '67676767', 1),
+(5, 'Фамилия Имя Отчество', 1234567890, '12345678901', 'admin@admin.admin', 'post', 'no post', 1);
 
 -- --------------------------------------------------------
 
@@ -171,7 +174,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `equipment`
 --
 ALTER TABLE `equipment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `list`
@@ -189,7 +192,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
