@@ -53,12 +53,12 @@ $equipment = $ec->getAll('equipment');
             Добавить
         </button>
         <? foreach ($get as $equip): ?>
+        <? if ($equip['staff_id'] != NULL): ?>
             <div class="card my-4 name equip">
                 <form action="Add/updateRemove.php" method="POST">
-                    <div class="card-header"><?= $equip['inv_num'] ?></div>
+                    <div class="card-header"><?= $equip['inv_num'] ?> - <?= $equip['create_time'] ?></div>
                     <div class="d-flex justify-content-between p-2">
-                        <p class="px-3 py-1"><?= $equip['FIO'] ?> - <?= $equip['name'] ?>
-                            - <?= $equip['create_time'] ?></p>
+                        <p class="px-3 py-1"><?= $equip['staff_name'] ?> - <?= $equip['equipment_name'] ?></p>
                         <div>
                             <input type="hidden" name="id" value="<?= $equip['id'] ?>">
                             <button type="submit" class="btn btn-danger" name="removeList" value="true">На склад
@@ -67,6 +67,21 @@ $equipment = $ec->getAll('equipment');
                     </div>
                 </form>
             </div>
+            <? else: ?>
+                <div class="card my-4 name equip">
+                    <form action="Add/updateRemove.php" method="POST">
+                        <div class="card-header"><?= $equip['inv_num'] ?> - <?= $equip['create_time'] ?></div>
+                        <div class="d-flex justify-content-between p-2">
+                            <p class="px-3 py-1"><?= $equip['equipment_name'] ?></p>
+                            <div>
+                                <input type="hidden" name="id" value="<?= $equip['id'] ?>">
+                                <button type="submit" class="btn btn-success" name="updateThree" value="true">Выдать
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            <? endif;?>
         <? endforeach; ?>
     </div>
 
@@ -95,11 +110,7 @@ $equipment = $ec->getAll('equipment');
                                 <? endforeach; ?>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="code" class="form-label">Инвентарный номер</label>
-                            <input type="text" class="form-control" id="code" placeholder="code" name="code">
-                        </div>
-
+                            <input type="hidden" name="code" value="#">
                         <button type="submit" class="btn btn-dark btn-block" name="addList" value="true">Добавить
                         </button>
                     </form>

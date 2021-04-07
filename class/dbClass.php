@@ -78,7 +78,7 @@ class dbClass
     // Список
     public function getAllList($arFilter = [])
     {
-        $sql = "SELECT list.id, staff.FIO, equipment.name, list.inv_num, list.create_time FROM `list` INNER JOIN `staff` ON staff.id = staff_id INNER JOIN `equipment` ON equipment.id = equipment_id ";
+        $sql = "SELECT list.*, s.FIO AS staff_name, e.name as equipment_name FROM `list` LEFT JOIN `staff` s ON s.id = list.staff_id LEFT JOIN `equipment` e ON e.id = list.equipment_id";
         if (!empty($arFilter))
         {
             $sql .= ' WHERE 1 ';
@@ -111,13 +111,16 @@ class dbClass
         $stmt->execute();
 
         $id = $db->lastInsertId();
-
         $inv_num = 'ИН';
         $num = 1000000+$id;
-        $num = substr($num, 1, 1);
-
+        $num = strval($num);
+        $num = substr($num, 1, 6);
         $inv_num .= $num;
 
+        $stmt = $db->prepare("UPDATE `list` SET `inv_num` = :inv_num WHERE id = :id");
+        $stmt->bindParam("inv_num", $inv_num, PDO::PARAM_STR);
+        $stmt->bindParam("id", $id, PDO::PARAM_STR);
+        $stmt->execute();
     }
 
     //    Список
@@ -126,6 +129,16 @@ class dbClass
         $db = getDB();
         $stmt = $db->prepare("UPDATE `list` SET `staff_id` = NULL WHERE id = :id");
         $stmt->bindParam("id", $id, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
+    //    Список
+    public function updateList($staff_id, $id)
+    {
+        $db = getDB();
+        $stmt = $db->prepare("UPDATE `list` SET `staff_id` = :staff_id WHERE id = :id");
+        $stmt->bindParam("staff_id", $staff_id, PDO::PARAM_STR);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $stmt->execute();
     }
 

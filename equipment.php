@@ -26,7 +26,7 @@ $get = $ec->getAll('equipment');
                     <div class="d-flex justify-content-between p-2">
                         <p class="px-3 py-1">Code: <?= $equip['code'] ?></p>
                         <div>
-                            <a href="/spisok.php" class="btn btn-dark">Использование оборудования</a>
+                            <a href="/spisok.php?FILTER%5Bstaff_id%5D=&FILTER%5Bequipment_id%5D=<?=$equip['id']?>" class="btn btn-dark">Использование оборудования</a>
                             <input type="hidden" name="id" value="<?= $equip['id'] ?>">
                             <input type="hidden" name="name" value="<?= $equip['name'] ?>">
                             <input type="hidden" name="code" value="<?= $equip['code'] ?>">

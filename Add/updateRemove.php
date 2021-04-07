@@ -3,6 +3,8 @@ include("../db.php");
 
 include('../class/dbClass.php');
 $ec = new dbClass();
+
+$staff = $ec->getAll('staff');
 ?>
 <?
 // Оборудование
@@ -33,9 +35,14 @@ if (!empty($_POST['removeStaff']) && $_POST['removeStaff'] == true) {
 
 // Список
 if (!empty($_POST['removeList']) && $_POST['removeList'] == true) {
-$remove = $ec->removeList($_POST['id']);
-$url = 'http://' . $_SERVER['SERVER_NAME'] . '/spisok.php';
-header("Location:" . $url);
+    $remove = $ec->removeList($_POST['id']);
+    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/spisok.php';
+    header("Location:" . $url);
+}
+if (!empty($_POST['updateList']) && $_POST['updateList'] == true) {
+    $update = $ec->updateList($_POST['staff_id'], $_POST['id']);
+    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/spisok.php';
+    header("Location:" . $url);
 }
 ?>
 
@@ -71,28 +78,33 @@ header("Location:" . $url);
                 <form action="updateRemove.php" method="POST">
                     <div class="mb-3">
                         <label for="fio" class="form-label">ФИО</label>
-                        <input type="text" class="form-control" id="fio" placeholder="fio" name="fio" value="<?=$_POST['fio']?>">
+                        <input type="text" class="form-control" id="fio" placeholder="fio" name="fio"
+                               value="<?= $_POST['fio'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="inn" class="form-label">ИНН</label>
-                        <input type="text" class="form-control" id="inn" placeholder="inn" name="inn" value="<?=$_POST['inn']?>">
+                        <input type="text" class="form-control" id="inn" placeholder="inn" name="inn"
+                               value="<?= $_POST['inn'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Телефон</label>
-                        <input type="text" class="form-control" id="phone" placeholder="phone" name="phone" value="<?=$_POST['phone']?>">
+                        <input type="text" class="form-control" id="phone" placeholder="phone" name="phone"
+                               value="<?= $_POST['phone'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">E-mail</label>
-                        <input type="text" class="form-control" id="email" placeholder="email" name="email" value="<?=$_POST['email']?>">
+                        <input type="text" class="form-control" id="email" placeholder="email" name="email"
+                               value="<?= $_POST['email'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="post" class="form-label">Должность</label>
-                        <input type="text" class="form-control" id="post" placeholder="post" name="post" value="<?=$_POST['post']?>">
+                        <input type="text" class="form-control" id="post" placeholder="post" name="post"
+                               value="<?= $_POST['post'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="department" class="form-label">Отдел</label>
                         <input type="text" class="form-control" id="department" placeholder="department"
-                               name="department" value="<?=$_POST['department']?>">
+                               name="department" value="<?= $_POST['department'] ?>">
                     </div>
                     <input type="hidden" name="id" value="<?= $_POST['id']; ?>">
                     <button type="submit" class="btn btn-dark btn-block" name="updateStaff" value="true">Изменить
@@ -101,7 +113,26 @@ header("Location:" . $url);
             </div>
         </div>
     <? } ?>
-
+    <? if (!empty($_POST['updateThree']) && $_POST['updateThree'] == true) { ?>
+        <div class="row mt-5 justify-content-center">
+            <div class="col-5 card p-5 m-2">
+                <form action="updateRemove.php" method="POST">
+                    <div class="mb-3">
+                        <label for="code" class="form-label">Сотрудник</label>
+                        <select class="form-select" id="staff_id" name="staff_id">
+                            <option></option>
+                            <? foreach ($staff as $staffItem): ?>
+                                <option value="<?= $staffItem['id'] ?>"><?= $staffItem['FIO'] ?></option>
+                            <? endforeach; ?>
+                        </select>
+                    </div>
+                    <input type="hidden" name="id" value="<?= $_POST['id']; ?>">
+                    <button type="submit" class="btn btn-dark btn-block" name="updateList" value="true">Изменить
+                    </button>
+                </form>
+            </div>
+        </div>
+    <? } ?>
 </div>
 
 <? include '../components/footer.php' ?>

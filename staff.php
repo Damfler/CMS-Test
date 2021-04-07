@@ -32,7 +32,7 @@ $get = $ec->getAll('staff');
                             <p class="px-3 py-1">Отдел: <?= $equip['department'] ?></p>
                         </div>
                         <div>
-                            <a href="/spisok.php" class="btn btn-dark">Использование оборудования</a>
+                            <a href="/spisok.php?FILTER%5Bstaff_id%5D=<?=$equip['id']?>&FILTER%5Bequipment_id%5D=" class="btn btn-dark">Использование оборудования</a>
                             <input type="hidden" name="id" value="<?= $equip['id'] ?>">
                             <input type="hidden" name="fio" value="<?= $equip['FIO'] ?>">
                             <input type="hidden" name="inn" value="<?= $equip['INN'] ?>">
