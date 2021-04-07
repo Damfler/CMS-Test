@@ -15,7 +15,7 @@ $get = $ec->getAll('staff');
 <? include 'components/header.php' ?>
 
     <div class="container">
-        <h1 class="text-center m-5">Перечень оборудования</h1>
+        <h1 class="text-center m-5">Перечень сотрудников</h1>
         <button type="button" class="btn btn-primary mt-3 btn-block" data-toggle="modal" data-target="#exampleModal">
             Добавить
         </button>

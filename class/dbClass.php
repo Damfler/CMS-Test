@@ -76,16 +76,28 @@ class dbClass
     }
 
     // Список
-    public function getAllList()
+    public function getAllList($arFilter = [])
     {
+        $sql = "SELECT list.id, staff.FIO, equipment.name, list.inv_num, list.create_time FROM `list` INNER JOIN `staff` ON staff.id = staff_id INNER JOIN `equipment` ON equipment.id = equipment_id ";
+        if (!empty($arFilter))
+        {
+            $sql .= ' WHERE 1 ';
+            $arFilter = array_filter($arFilter);
+
+            foreach ($arFilter as $filterKey => $filterVal)
+                $sql .= " AND list.`$filterKey` = '$filterVal'";
+        }
+
+
         try {
             $db = getDB();
-            $stmt = $db->prepare("SELECT list.id, staff.FIO, equipment.name, list.inv_num FROM `list` INNER JOIN `staff` ON staff.id = staff_id INNER JOIN `equipment` ON equipment.id = equipment_id");
+            $stmt = $db->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo '{"error":{"text":' . $e->getMessage() . '}}';
         }
+
     }
 
     // Список
@@ -93,10 +105,19 @@ class dbClass
     {
         $db = getDB();
         $stmt = $db->prepare("INSERT INTO `list` (`staff_id`, `equipment_id`, `inv_num`) VALUES (:si, :ei, :in)");
-        $stmt->bindParam("si", $staff_id, PDO::PARAM_STR);
-        $stmt->bindParam("ei", $equipment_id, PDO::PARAM_STR);
+        $stmt->bindParam("si", $staff_id, PDO::PARAM_INT);
+        $stmt->bindParam("ei", $equipment_id, PDO::PARAM_INT);
         $stmt->bindParam("in", $inv_num, PDO::PARAM_STR);
         $stmt->execute();
+
+        $id = $db->lastInsertId();
+
+        $inv_num = 'ИН';
+        $num = 1000000+$id;
+        $num = substr($num, 1, 1);
+
+        $inv_num .= $num;
+
     }
 
     //    Список
